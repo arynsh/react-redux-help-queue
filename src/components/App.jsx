@@ -8,6 +8,7 @@ import Moment from 'moment';
 import Admin from './Admin';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import c from './../constants';
 
 class App extends React.Component {
 
@@ -23,6 +24,18 @@ class App extends React.Component {
   }
 
   updateTicketElapsedWaitTime() {
+    const { dispatch } = this.props;
+    Object.keys(this.props.masterTicketList).map(ticketId => {
+      const ticket = this.props.masterTicketList[ticketId];
+      const newFormattedWaitTime = Moment(ticket.timeOpen).fromNow(true);
+      const action = {
+        type: c.UPDATE_TIME,
+        id: ticketId,
+        formattedWaitTime: newFormattedWaitTime
+      };
+      dispatch(action);
+    });
+
     // var newMasterTicketList = Object.assign({}, this.state.masterTicketList);
     // Object.keys(newMasterTicketList).forEach(ticketId => {
     //   newMasterTicketList[ticketId].formattedWaitTime = (newMasterTicketList[ticketId].timeOpen).fromNow(true);
